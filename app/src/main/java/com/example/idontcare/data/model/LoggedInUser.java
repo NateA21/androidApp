@@ -1,13 +1,12 @@
 package com.example.idontcare.data.model;
 
+import android.util.Log;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-/**
- * Data class that captures user information for logged in users retrieved from LoginRepository
- */
-
+//Class for user login and database.
 @Entity(tableName="users")
 public class LoggedInUser {
 
@@ -32,13 +31,30 @@ public class LoggedInUser {
         this.userId = userId;
         this.displayName = displayName;
         this.password = password;
-
+        this.favRestaurants = new String[10];
+        this.savedAddresses = new String[10];
     }
 
-    public void addAddress(String newAddress) {
+    public void addRestaurant(String restaurant) {
+        for (int i = 0; i < this.favRestaurants.length; i++) {
+            if (this.favRestaurants[i] == null || this.favRestaurants[i].equals("")) {
+                this.favRestaurants[i] = restaurant;
+                return;
+            }
 
+        }
+        Log.e("Full String[]", "Full Restaurant String Array for UserID given.");
+    }
 
+    public void addAddress(String address) {
+        for (int i = 0; i < this.savedAddresses.length; i++) {
+            if (this.savedAddresses[i] == null || this.savedAddresses[i].equals("")) {
+                this.savedAddresses[i] = address;
+                return;
+            }
 
+        }
+        Log.e("Full String[]", "Full Address String Array for UserID given.");
     }
 
     public String[] getSavedAddresses() { return savedAddresses; }
