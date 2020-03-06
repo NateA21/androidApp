@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">IDontCare</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_guest_sign_in">Continue as Guest</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="login_text">Login with your username and password:</string>
+    <string name="register_text">Or create a new login to save your results</string>
+    <string name="guest_text">Or just continue as a guest!</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <!-- Strings related to main activity layout -->
+    <string name="mp_choose_text">Select <b>\"Make List\"</b> to add your favorite restaurants, or select <b>\"I Don't Care\"</b> to let Google Maps decide for you!</string>
+    <string name="idc_button_text">I Don\'t Care</string>
+    <string name="makelist_button_text">Make List</string>
+
+
+
+
+</resources>
