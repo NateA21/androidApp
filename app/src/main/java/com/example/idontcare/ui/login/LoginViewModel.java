@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.idontcare.data.LoginRepository;
 import com.example.idontcare.data.Result;
 import com.example.idontcare.data.model.LoggedInUser;
 import com.example.idontcare.R;
