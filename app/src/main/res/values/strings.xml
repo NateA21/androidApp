@@ -19,8 +19,8 @@
     <string name="mp_choose_text">Select <b>\"Make List\"</b> to add your favorite restaurants, or select <b>\"I Don't Care\"</b> to let Google Maps decide for you!</string>
     <string name="idc_button_text">I Don\'t Care</string>
     <string name="makelist_button_text">Make List</string>
-
-
+    <string name="button_text">Pick Random</string>
+    <string name="final_choice_text">Go Here</string>
 
 
 </resources>
