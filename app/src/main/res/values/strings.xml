@@ -16,11 +16,27 @@
     <string name="title_activity_main">MainActivity</string>
 
     <!-- Strings related to main activity layout -->
-    <string name="mp_choose_text">Select <b>\"Make List\"</b> to add your favorite restaurants, or select <b>\"I Don't Care\"</b> to let Google Maps decide for you!</string>
+    <string name="mp_choose_text" translatable="false">Select <b>"Make List"</b> to add your favorite restaurants, or select <b>"I Don't Care"</b> to let Google Maps decide for you!</string>
     <string name="idc_button_text">I Don\'t Care</string>
     <string name="makelist_button_text">Make List</string>
     <string name="button_text">Pick Random</string>
     <string name="final_choice_text">Go Here</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
 
 </resources>

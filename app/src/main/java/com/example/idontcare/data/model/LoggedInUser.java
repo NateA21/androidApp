@@ -21,45 +21,32 @@ public class LoggedInUser {
     private String password;
 
     @ColumnInfo(name = "favRestaurants")
-    private String[] favRestaurants;
+    private String favRestaurant;
 
     @ColumnInfo(name = "savedAddresses")
-    private String[] savedAddresses;
+    private String savedAddress;
 
 
     public LoggedInUser(int userId, String displayName, String password) {
         this.userId = userId;
         this.displayName = displayName;
         this.password = password;
-        this.favRestaurants = new String[10];
-        this.savedAddresses = new String[10];
+        //this.favRestaurant;
+        //this.savedAddress;
     }
 
-    public void addRestaurant(String restaurant) {
-        for (int i = 0; i < this.favRestaurants.length; i++) {
-            if (this.favRestaurants[i] == null || this.favRestaurants[i].equals("")) {
-                this.favRestaurants[i] = restaurant;
-                return;
-            }
-
-        }
-        Log.e("Full String[]", "Full Restaurant String Array for UserID given.");
+    public void setFavRestaurant(String restaurant) {
+        this.favRestaurant = restaurant;
+        //Will always overwrite fav restaurant.
     }
 
-    public void addAddress(String address) {
-        for (int i = 0; i < this.savedAddresses.length; i++) {
-            if (this.savedAddresses[i] == null || this.savedAddresses[i].equals("")) {
-                this.savedAddresses[i] = address;
-                return;
-            }
-
-        }
-        Log.e("Full String[]", "Full Address String Array for UserID given.");
+    public void setSavedAddress(String address) {
+        this.savedAddress = address;
     }
 
-    public String[] getSavedAddresses() { return savedAddresses; }
+    public String getSavedAddress() { return savedAddress; }
 
-    public String[] getFavRestaurants() { return favRestaurants; }
+    public String getFavRestaurant() { return favRestaurant; }
 
     public int getUserId() {
         return userId;
