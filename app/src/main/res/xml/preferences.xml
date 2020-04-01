@@ -2,6 +2,30 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/diets_setting">
         <CheckBoxPreference
-            android:title="@string/diets_setting"/>
+            android:defaultValue="true"
+            android:key="vegetarian"
+            android:title="@string/vegetarian_check"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="vegan"
+            android:title="@string/vegan_check"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/price_setting">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="cheap"
+            android:title="@string/cheap_check"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="inexpensive"
+            android:title="@string/inexpensive_check"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="average"
+            android:title="@string/average_check"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="expensive"
+            android:title="@string/expensive_check"/>
     </PreferenceCategory>
 </PreferenceScreen>
