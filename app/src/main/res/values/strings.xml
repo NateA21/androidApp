@@ -23,6 +23,16 @@
     <string name="final_choice_text">Go Here</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- Settings Activity -->
+    <string name="diets_setting">Preferred Diets</string>
+    <string name="vegan_check">Vegan</string>
+    <string name="vegetarian_check">Vegetarian</string>
+    <string name="price_setting">Preferred Prices</string>
+    <string name="cheap_check">Cheap</string>
+    <string name="inexpensive_check">Inexpensive</string>
+    <string name="average_check">Average</string>
+    <string name="expensive_check">Expensive</string>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
@@ -37,6 +47,5 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-
 
 </resources>
