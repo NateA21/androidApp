@@ -10,7 +10,7 @@
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/list_button"
         android:layout_width="133dp"
         android:layout_height="199dp"
         android:layout_marginTop="18dp"
@@ -19,13 +19,13 @@
         android:text="@string/makelist_button_text"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/idontcare_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/idontcare_button"
         android:layout_width="133dp"
         android:layout_height="199dp"
         android:layout_marginStart="4dp"
@@ -37,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintStart_toEndOf="@+id/list_button"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
@@ -70,5 +70,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/idontcare_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

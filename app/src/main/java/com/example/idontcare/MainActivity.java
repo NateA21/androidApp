@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,8 +25,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
+        Button idontcare = findViewById(R.id.idontcare_button);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        idontcare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mapActivity = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(mapActivity);
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,12 +66,5 @@ public class MainActivity extends AppCompatActivity {
         else {result.append(place3);}
 
         ((TextView) findViewById(R.id.finalChoice)).setText(result);
-
-
-
-
-
-
-
     }
 }
