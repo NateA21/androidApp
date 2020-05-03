@@ -98,13 +98,13 @@ public abstract class UserDatabase extends RoomDatabase {
 
     }
 
-    public static void createUser(final String displayname, final String password) {
-        new AsyncTask<String, String, Void>() {
-            protected Void doInBackground(String... strings) {
-                INSTANCE.userDAO().createUser(displayname, password);
+    public static void createUser(LoggedInUser user) {
+        new AsyncTask<LoggedInUser, Void, Void>() {
+            protected Void doInBackground(LoggedInUser...users) {
+                INSTANCE.userDAO().createUser();
                 return null;
             }
-        }.execute(displayname, password);
+        }.execute(user);
 
     }
 

@@ -18,6 +18,7 @@ import com.example.idontcare.R;
 import com.example.idontcare.SettingsActivity;
 import com.example.idontcare.data.UserDatabase;
 import com.example.idontcare.data.loginResponse;
+import com.example.idontcare.data.model.LoggedInUser;
 
 public class LoginActivity extends AppCompatActivity implements loginResponse {
 
@@ -77,7 +78,8 @@ public class LoginActivity extends AppCompatActivity implements loginResponse {
             final EditText passwordEditText = findViewById(R.id.password);
             String password = passwordEditText.getText().toString().trim();
             Log.i("loginFinish: " , "Did not login, creating new login now!");
-            UserDatabase.createUser(username, password);
+            LoggedInUser user = new LoggedInUser(0, username, password);
+            UserDatabase.createUser(user);
             //Log.i("LoginTry#2" , "Trying to login with newly created account.");
         }
     }

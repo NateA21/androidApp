@@ -32,7 +32,7 @@ public interface UserDAO {
     void delete(LoggedInUser...users);
 
     @Insert
-    Void createUser(String displayname, String password);
+    void createUser(LoggedInUser...users);
 
 
 }
