@@ -31,5 +31,8 @@ public interface UserDAO {
     @Delete
     void delete(LoggedInUser...users);
 
+    @Insert
+    Void createUser(String displayname, String password);
+
 
 }
