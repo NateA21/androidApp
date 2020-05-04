@@ -2,6 +2,7 @@ package com.example.idontcare.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +15,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.idontcare.MainActivity;
 import com.example.idontcare.R;
+import com.example.idontcare.SettingsActivity;
+import com.example.idontcare.data.UserDatabase;
+import com.example.idontcare.data.loginResponse;
+import com.example.idontcare.data.model.LoggedInUser;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements loginResponse {
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,13 +39,13 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+                String username = usernameEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
 
+                UserDatabase.checkLogin(username, password);
                 /* Database function goes here */
                 /* Some kinda bundle thing here for maps functionality or w/e? */
-                Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(mainActivity);
+
             }
         });
 
@@ -52,5 +58,30 @@ public class LoginActivity extends AppCompatActivity {
                 //setContentView(R.layout.activity_main);
             }
         });
+    }
+
+
+    public void login() {
+
+    }
+
+    @Override
+    public void loginFinish(Boolean loginFinish) {
+        //Where the result of login will go
+        if(loginFinish) {
+            Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(mainActivity);
+        } else {
+            //Not a login!
+            //Create new login, and then do it anyway for now.
+            final EditText usernameEditText = findViewById(R.id.username);
+            String username = usernameEditText.getText().toString().trim();
+            final EditText passwordEditText = findViewById(R.id.password);
+            String password = passwordEditText.getText().toString().trim();
+            Log.i("loginFinish: " , "Did not login, creating new login now!");
+            LoggedInUser user = new LoggedInUser(0, username, password);
+            UserDatabase.createUser(user);
+            //Log.i("LoginTry#2" , "Trying to login with newly created account.");
+        }
     }
 }
