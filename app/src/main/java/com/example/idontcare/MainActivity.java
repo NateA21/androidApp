@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,20 +28,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Intent intent = getIntent();
+        final Button idontcareButton = findViewById(R.id.idontcareButton);
+        final Button makelistButton = findViewById(R.id.listButton);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        idontcareButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                /* goes to activity_main.xml from here */
+                Intent mapsActivity = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(mapsActivity);
             }
-        });*/
+        });
     }
 
     public void pickRandom(View view) {

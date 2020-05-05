@@ -2,7 +2,10 @@ package com.example.idontcare;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -10,19 +13,47 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+
+import java.util.Collections;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private static final String TAG = "MapsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String apiKey = null;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+
+        /* Try to retrieve Google Maps API Key from the manifest */
+        try {
+            ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            Bundle bundle = ai.metaData;
+            apiKey = bundle.getString("com.google.android.geo.API_KEY");
+        } catch(PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "apiKey not properly configured in manifest.");
+        }
+
+        /* Attempt to use the key to retrieve the user's current location. */
+        if (apiKey == null) {
+            Log.e(TAG, "apiKey returned null.");
+        } else {
+            Places.initialize(getApplicationContext(), apiKey);
+            PlacesClient placesClient = Places.createClient(this);
+
+            List<Place.Field> placeFields = Collections.singletonList(Place.Field.NAME);
+
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
     }
 
 

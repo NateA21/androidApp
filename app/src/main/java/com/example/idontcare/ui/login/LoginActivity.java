@@ -55,7 +55,6 @@ public class LoginActivity extends AppCompatActivity implements loginResponse {
                 /* goes to activity_main.xml from here */
                 Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(mainActivity);
-                //setContentView(R.layout.activity_main);
             }
         });
     }
