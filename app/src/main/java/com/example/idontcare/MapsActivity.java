@@ -1,5 +1,6 @@
 package com.example.idontcare;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -32,10 +34,16 @@ import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private static final int PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 100;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 200;
+    private static final int PERMISSIONS_REQUEST_INTERNET = 300;
     private GoogleMap mMap; // map object
     private FusedLocationProviderClient fusedLocationClient; // location service (needed to find last location of device)
     private static final String TAG = "MapsActivity"; // debug tag
     private Location userHome;
+    boolean cPermissionGranted;
+    boolean fPermissionGranted;
+    boolean iPermissionGranted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +51,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        /* Request GPS Permissions */
-        requestNecessaryPermissions();
 
         /* Try to retrieve Google Maps API Key from the manifest */
         try {
@@ -73,8 +78,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Places.initialize(getApplicationContext(), apiKey);
             PlacesClient placesClient = Places.createClient(this);
 
-            List<Place.Field> placeFields = Collections.singletonList(Place.Field.NAME);
-
             /* Obtain the SupportMapFragment and get notified when the map is ready to be used. */
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.map);
@@ -94,31 +97,110 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (userHome == null) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Error finding user's last location.", Toast.LENGTH_SHORT);
-            toast.show();
-            return;
-        }
+        requestNecessaryPermissions();
 
-        // Add a marker in Sydney and move the camera
-        LatLng home = new LatLng(userHome.getLatitude(), userHome.getLongitude());
-        LatLng sydney = new LatLng(-34, 151);
-        /*mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
-        mMap.addMarker(new MarkerOptions().position(home).title("Home"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(home));
+        updateLocationUI();
+
+        getDeviceLocation();
     }
 
     /* Requests necessary permissions from the user to access the internet and collect current device location */
     private void requestNecessaryPermissions() {
         if (ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-            ActivityCompat.requestPermissions( this, new String[] { Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
+            ActivityCompat.requestPermissions( this, new String[] { Manifest.permission.ACCESS_COARSE_LOCATION }, PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+        } else {
+            cPermissionGranted = true;
         }
+
         if (ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-            ActivityCompat.requestPermissions( this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 200);
+            ActivityCompat.requestPermissions( this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        } else {
+            fPermissionGranted = true;
         }
+
         if (ContextCompat.checkSelfPermission( this, Manifest.permission.INTERNET ) != PackageManager.PERMISSION_GRANTED ) {
-            ActivityCompat.requestPermissions( this, new String[] { Manifest.permission.INTERNET }, 300);
+            ActivityCompat.requestPermissions( this, new String[] { Manifest.permission.INTERNET }, PERMISSIONS_REQUEST_INTERNET);
+        } else {
+            iPermissionGranted = true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        fPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    fPermissionGranted = true;
+                }
+            }
+            case PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    cPermissionGranted = true;
+                }
+            }
+            case PERMISSIONS_REQUEST_INTERNET: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    iPermissionGranted = true;
+                }
+            }
+        }
+        updateLocationUI();
+    }
+
+    private void updateLocationUI() {
+        if (mMap == null) {
+            return;
+        }
+        try {
+            if (fPermissionGranted) {
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                mMap.setMyLocationEnabled(false);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                userHome = null;
+                requestNecessaryPermissions();
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    private void getDeviceLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        try {
+            if (cPermissionGranted) {
+                Task locationResult = fusedLocationClient.getLastLocation();
+                locationResult.addOnCompleteListener(this, new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()) {
+                            // Set the map's camera position to the current location of the device.
+                            userHome = (Location) task.getResult();
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                    new LatLng(userHome.getLatitude(),
+                                            userHome.getLongitude()), 10)); /* 10 is the default zoom */
+                        } else {
+                            Log.d(TAG, "Current location is null. Using defaults.");
+                            Log.e(TAG, "Exception: %s", task.getException());
+                            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, 10));
+                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                        }
+                    }
+                });
+            }
+        } catch(SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
         }
     }
 }
