@@ -179,7 +179,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          * cases when a location is not available.
          */
         try {
-            if (cPermissionGranted) {
+            if (fPermissionGranted) {
                 Task locationResult = fusedLocationClient.getLastLocation();
                 locationResult.addOnCompleteListener(this, new OnCompleteListener() {
                     @Override
