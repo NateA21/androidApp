@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         else {result.append(place5);}
 
         ((TextView) findViewById(R.id.finalChoice)).setText(result);
+        result.delete(0, result.length());
     }
 
     @Override
