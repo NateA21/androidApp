@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,17 +31,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final Button makeListButton = findViewById(R.id.makeListButton);
+        final Button iDontCareButton = findViewById(R.id.iDontCareButton);
 
-
-
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
     }
 
     public void pickRandom(View view) {
@@ -62,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
         else {result.append(place3);}
 
         ((TextView) findViewById(R.id.finalChoice)).setText(result);
-
-
     }
 
     @Override
@@ -77,13 +68,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
-
                 return true;
 
-
             default:
-                // If we got here, the user's action was not recognized.
-                //                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
         }

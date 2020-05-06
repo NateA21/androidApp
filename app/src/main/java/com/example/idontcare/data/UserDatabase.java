@@ -57,17 +57,15 @@ public abstract class UserDatabase extends RoomDatabase {
 
                 LoggedInUser user = new LoggedInUser(0, "admin", "password");
                 dao.insert(user);
-                user = new LoggedInUser(0, "nate", "12345");
-                dao.insert(user);
+                LoggedInUser user1 = new LoggedInUser(1, "nate", "12345");
+                dao.insert(user1);
+                LoggedInUser user2 = new LoggedInUser(1, "Dr.", "Blum");
+                dao.insert(user2);
             });
         }
     };
 
-
-
-
-
-
+    //Keeping the below code for now.
     /*
     public static void insert(final LoggedInUser user) {
         new AsyncTask<LoggedInUser, Void, Void>() {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -36,13 +37,12 @@ public class LoginActivity extends AppCompatActivity {
         final Button guestButton = findViewById(R.id.login2);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading); /* ? */
 
-
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         loginViewModel.getAllUsers();
 
-        LoggedInUser user1 = new LoggedInUser(0, "nate", "tobias21");
-        loginViewModel.insert(user1);
-        Log.i("inserteduser!!" , "nate");
+        //LoggedInUser user1 = new LoggedInUser(0, "nate", "tobias21");
+        //loginViewModel.insert(user1);
+        //Log.i("inserteduser!!" , "nate");
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,17 +54,16 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("User Logged In", "User: " + username);
                     Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(mainActivity);
-
                 } else {
                     Log.i("User Did not log In", "No username found by " + username);
+                    TextView loginFail = (TextView)findViewById(R.id.loginfailText);
+                    loginFail.setText(R.string.loginFailString);
+                    loginFail.setTextColor(getResources().getColor(R.color.colorRed));
                 }
-
-                /* Database function goes here */
                 /* Some kinda bundle thing here for maps functionality or w/e? */
 
             }
         });
-
         guestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

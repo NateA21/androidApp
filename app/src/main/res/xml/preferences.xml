@@ -2,13 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/diets_setting">
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="vegetarian"
-            android:title="@string/vegetarian_check"/>
+            android:title="@string/vegetarian_check" />
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="vegan"
-            android:title="@string/vegan_check"/>
+            android:title="@string/vegan_check" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/price_setting">
         <CheckBoxPreference
