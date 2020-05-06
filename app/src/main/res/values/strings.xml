@@ -56,5 +56,6 @@
     <string name="radio3">3</string>
     <string name="radio4">4</string>
     <string name="radio5">5</string>
+    <string name="homeButton">Home</string>
 
 </resources>
