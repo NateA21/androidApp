@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.idontcare.data.SettingsFragment;
+import com.example.idontcare.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -51,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    public void goHome(View view) {
+        Intent intent = new Intent (MainActivity.this, LoginActivity.class);
+        startActivity(intent);
 
     }
 
