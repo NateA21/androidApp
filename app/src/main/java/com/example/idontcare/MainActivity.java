@@ -43,16 +43,36 @@ public class MainActivity extends AppCompatActivity {
         int weight2 = Integer.parseInt(((EditText) findViewById(R.id.editText6)).getText().toString());
         String place3 = ((EditText) findViewById(R.id.editText5)).getText().toString();
         int weight3 = Integer.parseInt(((EditText) findViewById(R.id.editText4)).getText().toString());
+        String place4 = ((EditText) findViewById(R.id.editText7)).getText().toString();
+        int weight4 = Integer.parseInt(((EditText) findViewById(R.id.editText9)).getText().toString());
+        String place5 = ((EditText) findViewById(R.id.editText8)).getText().toString();
+        int weight5 = Integer.parseInt(((EditText) findViewById(R.id.editText10)).getText().toString());
+
+        if (findViewById(R.id.rB2).isSelected()){
+            weight3 = 0;
+            weight4 = 0;
+            weight5 = 0;
+        }
+        else if (findViewById(R.id.rB3).isSelected()){
+            weight4 = 0;
+            weight5 = 0;
+        }
+        else if (findViewById(R.id.rB4).isSelected()){
+            weight5 = 0;
+        }
+
 
         Random random = new Random();
-        int totalWeight = weight1 + weight2 + weight3;
+        int totalWeight = weight1 + weight2 + weight3 + weight4 + weight5;
         int pick = random.nextInt (totalWeight);
 
         StringBuffer result = new StringBuffer();
 
         if (pick <= weight1){result.append(place1);}
         else if (pick <= (weight1 + weight2)){result.append(place2);}
-        else {result.append(place3);}
+        else if (pick <= (weight1 + weight2 + weight3)){result.append(place3);}
+        else if (pick <= (weight1 + weight2 + weight3 + weight4)){result.append(place4);}
+        else {result.append(place5);}
 
         ((TextView) findViewById(R.id.finalChoice)).setText(result);
     }
