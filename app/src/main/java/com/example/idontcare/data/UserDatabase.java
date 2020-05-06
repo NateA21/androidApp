@@ -2,6 +2,7 @@ package com.example.idontcare.data;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -11,6 +12,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.idontcare.data.model.LoggedInUser;
 import com.example.idontcare.data.model.UserDAO;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Database(entities = {LoggedInUser.class}, version = 1, exportSchema = false)
 public abstract class UserDatabase extends RoomDatabase {
@@ -23,37 +27,58 @@ public abstract class UserDatabase extends RoomDatabase {
     public abstract UserDAO userDAO();
 
     private static UserDatabase INSTANCE;
+    private static final int NUMBER_OF_THREADS = 4;
+    static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
 
     public static synchronized UserDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (UserDatabase.class) {
                 if (INSTANCE == null) {
-
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), UserDatabase.class, "user_database").addCallback(createUserDatabaseCallback).build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            UserDatabase.class, "user_database").addCallback(sRoomDatabaseCallback).build();
                 }
             }
         }
         return INSTANCE;
-
     }
 
-    private static RoomDatabase.Callback createUserDatabaseCallback = new RoomDatabase.Callback() {
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            insert(new LoggedInUser(0, "admin", "password"));
+    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
+
+        @Override
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+            databaseWriteExecutor.execute(() -> {
+                // Populate the database in the background.
+                // If you want to start with more words, just add them.
+                UserDAO dao = INSTANCE.userDAO();
+                //dao.deleteAll();
+
+                LoggedInUser user = new LoggedInUser(0, "admin", "password");
+                dao.insert(user);
+                user = new LoggedInUser(0, "nate", "12345");
+                dao.insert(user);
+            });
         }
     };
 
-    public static void insert(final LoggedInUser loggedInUser) {
+
+
+
+
+
+    /*
+    public static void insert(final LoggedInUser user) {
         new AsyncTask<LoggedInUser, Void, Void>() {
             protected Void doInBackground(LoggedInUser...users) {
-                INSTANCE.userDAO().insert(loggedInUser);
+                INSTANCE.userDAO().insert(user);
                 return null;
             }
-        }.execute(loggedInUser);
+        }.execute(user);
     }
 
-    public static void getFavRestaurants(int id, final LoggedInUserListener listener) {
+    public static void getFavRestaurants(int id, final UserDatabase.LoggedInUserListener listener) {
         new AsyncTask<Integer, Void, String[]>() {
             protected String[] doInBackground(Integer...ids) {
                 return INSTANCE.userDAO().getFavRestaurants(ids[0]);
@@ -83,29 +108,8 @@ public abstract class UserDatabase extends RoomDatabase {
         }.execute(user);
     }
 
-    public static void checkLogin(final String displayname, final String password) {
-        new AsyncTask<String, String, Boolean>() {
-            public loginResponse response = null;
-            protected Boolean doInBackground(String... strings) {
-                return INSTANCE.userDAO().checkLogin(displayname, password);
-            }
 
-            @Override
-            protected void onPostExecute(Boolean aBoolean) {
-                response.loginFinish(aBoolean);
-            }
-        }.execute(displayname, password);
+*/
 
-    }
-
-    public static void createUser(LoggedInUser user) {
-        new AsyncTask<LoggedInUser, Void, Void>() {
-            protected Void doInBackground(LoggedInUser...users) {
-                INSTANCE.userDAO().createUser();
-                return null;
-            }
-        }.execute(user);
-
-    }
 
 }
