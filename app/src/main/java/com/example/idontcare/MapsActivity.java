@@ -22,19 +22,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -44,17 +37,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int PERMISSIONS_REQUEST_INTERNET = 300;
     private static final String KEY_CAMERA_POSITION = "camera_position"; // Keys for saving camera position
     private static final String KEY_LOCATION = "location";
-    private static final int M_MAX_ENTRIES = 5;
     private GoogleMap mMap; // map object
     private FusedLocationProviderClient fusedLocationClient; // location service (needed to find last location of device)
     private PlacesClient placesClient; // place initialization
     private static final String TAG = "MapsActivity"; // debug tag
     private Location userHome;
     private Parcelable cameraPos;
-    String[] placeNames; // Place information
-    String[] placeAddresses;
-    List[] placeAttributions;
-    LatLng[] placeLatLngs;
     boolean cPermissionGranted;
     boolean fPermissionGranted;
     boolean iPermissionGranted;
@@ -128,7 +116,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     /* Saves state when the activity pauses. */
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         if (mMap != null) {
             outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
             outState.putParcelable(KEY_LOCATION, userHome);
