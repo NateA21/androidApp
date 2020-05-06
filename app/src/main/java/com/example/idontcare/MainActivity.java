@@ -25,17 +25,28 @@ import android.widget.TextView;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+
     private String primaryUserID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Intent intent = getIntent();
         Toolbar toolbar = findViewById(R.id.toolbar);
+        Button iDontCareButton = findViewById(R.id.iDontCareButton);
         setSupportActionBar(toolbar);
         primaryUserID = getIntent().getStringExtra("userID");
         final Button makeListButton = findViewById(R.id.makeListButton);
         final Button mapsButton = findViewById(R.id.iDontCareButton);
+
+        iDontCareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mapsActivity = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(mapsActivity);
+            }
+        });
 
         makeListButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,19 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(randomActivity);
             }
         });
-
-        mapsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent mapsActivity = new Intent(MainActivity.this, MapsActivity.class);
-                mapsActivity.putExtra("userID", primaryUserID);
-                startActivity(mapsActivity);
-            }
-        });
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
