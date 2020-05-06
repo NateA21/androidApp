@@ -6,22 +6,26 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.idontcare.data.SettingsFragment;
+import com.example.idontcare.data.model.LoggedInUser;
+import com.example.idontcare.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-
+    private String primaryUserID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,42 +33,31 @@ public class MainActivity extends AppCompatActivity {
         //Intent intent = getIntent();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        primaryUserID = getIntent().getStringExtra("userID");
+        final Button makeListButton = findViewById(R.id.makeListButton);
+        final Button mapsButton = findViewById(R.id.iDontCareButton);
 
-
-
-
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        makeListButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                Intent randomActivity = new Intent(MainActivity.this, RandomActivity.class);
+                randomActivity.putExtra("userID", primaryUserID);
+                startActivity(randomActivity);
             }
-        });*/
+        });
+
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent mapsActivity = new Intent(MainActivity.this, MapsActivity.class);
+                mapsActivity.putExtra("userID", primaryUserID);
+                startActivity(mapsActivity);
+            }
+        });
     }
 
-    public void pickRandom(View view) {
-        String place1 = ((EditText) findViewById(R.id.editText)).getText().toString();
-        int weight1 = Integer.parseInt(((EditText) findViewById(R.id.editText3)).getText().toString());
-        String place2 = ((EditText) findViewById(R.id.editText2)).getText().toString();
-        int weight2 = Integer.parseInt(((EditText) findViewById(R.id.editText6)).getText().toString());
-        String place3 = ((EditText) findViewById(R.id.editText5)).getText().toString();
-        int weight3 = Integer.parseInt(((EditText) findViewById(R.id.editText4)).getText().toString());
-
-        Random random = new Random();
-        int totalWeight = weight1 + weight2 + weight3;
-        int pick = random.nextInt (totalWeight);
-
-        StringBuffer result = new StringBuffer();
-
-        if (pick <= weight1){result.append(place1);}
-        else if (pick <= (weight1 + weight2)){result.append(place2);}
-        else {result.append(place3);}
-
-        ((TextView) findViewById(R.id.finalChoice)).setText(result);
 
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("User Logged In", "User: " + username);
 
                     Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
-                    mainActivity.putExtra("user", (Parcelable) primaryUser);
+                    mainActivity.putExtra("userID", primaryUser.getUserId());
                     startActivity(mainActivity);
                 } else {
                     Log.i("User Did not log In", "No username found by " + username);
