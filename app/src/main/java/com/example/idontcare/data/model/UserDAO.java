@@ -15,13 +15,6 @@ import java.util.List;
 public interface UserDAO {
 
 
-    @Query("SELECT savedAddresses FROM users WHERE users.rowid = :id")
-    String[] getSavedAddresses(int id);
-
-    //Used for getting fav restaurants, requires user to be logged in
-    @Query("SELECT favRestaurants FROM users WHERE users.rowid = :id")
-    String[] getFavRestaurants(int id);
-
     //LOGIN FUNCTION. NOT SECURE ATM
     @Query("SELECT rowid, displayName, password FROM users WHERE users.displayName = :displayname and users.password = :password")
     LoggedInUser checkLogin(String displayname, String password);
@@ -41,6 +34,5 @@ public interface UserDAO {
     @Query("select * from users")
     LiveData<List<LoggedInUser>> getAllUsers();
 
-    //@Query("SELECT displayName, password FROM users WHERE users.displayName = :displayname and users.password = :password")
-    //LiveData<Boolean> checkLogin(String displayname, String password);
+
 }

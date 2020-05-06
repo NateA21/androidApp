@@ -28,4 +28,7 @@ public class Restaurant {
 
     public String getRestaurantName() {return restaurantName;}
     public void setRestaurantName(String restaurantName) {this.restaurantName = restaurantName;}
+    public String getRestaurantStyle() {return restaurantStyle;}
+    public void setRestaurantStyle(String restaurantStyle) {this.restaurantStyle = restaurantStyle;}
+
 }
