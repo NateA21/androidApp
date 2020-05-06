@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //mainActivity.putExtra("user", (Parcelable) primaryUser);
+                Intent randomActivity = new Intent(MainActivity.this, RandomActivity.class);
+                startActivity(randomActivity);
                 //Send to trevors activity
             }
         });
