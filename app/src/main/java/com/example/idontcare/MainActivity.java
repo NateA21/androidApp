@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    private String primaryUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,23 @@ public class MainActivity extends AppCompatActivity {
 
         final Button makeListButton = findViewById(R.id.makeListButton);
         final Button iDontCareButton = findViewById(R.id.iDontCareButton);
+        primaryUser = getIntent().getStringExtra("user");
+
+
+        makeListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Send to trevors activity
+            }
+        });
+
+        iDontCareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Send to Mikes activity
+
+            }
+        });
 
     }
 

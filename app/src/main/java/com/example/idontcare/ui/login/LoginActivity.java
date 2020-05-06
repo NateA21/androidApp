@@ -2,6 +2,7 @@ package com.example.idontcare.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -52,7 +53,9 @@ public class LoginActivity extends AppCompatActivity {
                 LoggedInUser primaryUser = loginViewModel.checkLogin(username, password);
                 if (primaryUser != null) {
                     Log.i("User Logged In", "User: " + username);
+
                     Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+                    mainActivity.putExtra("user", (Parcelable) primaryUser);
                     startActivity(mainActivity);
                 } else {
                     Log.i("User Did not log In", "No username found by " + username);
